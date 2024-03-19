@@ -24,12 +24,12 @@ export class ProductController {
     }
 
     @Post()
-    createProduct(@Body() productDTO: ProductDTO) : ResponseData<ProductDTO> {
+    createProduct(@Body(new ValidationPipe()) productDTO: ProductDTO) : ResponseData<ProductDTO> {
         try {
-            return new ResponseData<ProductDTO>(productDTO, HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
+            return new ResponseData<Product>(this.productService.createProduct(productDTO), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
             
         } catch (error) {
-            return new ResponseData<ProductDTO>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
+            return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
             
         }
     }
@@ -46,23 +46,23 @@ export class ProductController {
     }
 
     @Put('/:id')
-    updateProduct() : ResponseData<string> {
+    updateProduct(@Body() productDTO: ProductDTO, @Param('id') id: number) : ResponseData<Product> {
         try {
-            return new ResponseData<string>(this.productService.updateProduct(), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
+            return new ResponseData<Product>(this.productService.updateProduct(productDTO, id), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
             
         } catch (error) {
-            return new ResponseData<string>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
+            return new ResponseData<Product>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
             
         }
     }
 
     @Delete('/:id')
-    deleteProduct() : ResponseData<string> {
+    deleteProduct(@Param('id') id: number) : ResponseData<Boolean> {
         try {
-            return new ResponseData<string>(this.productService.deleteProduct(), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
+            return new ResponseData<Boolean>(this.productService.deleteProduct(id), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
             
         } catch (error) {
-            return new ResponseData<string>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
+            return new ResponseData<Boolean>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
             
         }
     }

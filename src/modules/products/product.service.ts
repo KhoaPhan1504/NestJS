@@ -1,4 +1,5 @@
 import { Injectable } from "@nestjs/common";
+import { ProductDTO } from "src/dto/product.dto";
 import { Product } from "src/models/product.model";
 
 @Injectable()
@@ -14,8 +15,13 @@ export class ProductService{
     }
 
  
-    createProduct() : string {
-        return 'POST PRODUCT';
+    createProduct(productDTO: ProductDTO) : Product {
+        const product: Product = {
+            id: Math.random(),
+            ...productDTO
+        };
+        this.products.push(product);
+        return product;
     }
 
     
@@ -24,12 +30,21 @@ export class ProductService{
     }
 
     
-    updateProduct() : string {
-        return 'UPDATE PRODUCT';
+    updateProduct(productDTO: ProductDTO, id: number) : Product {
+        const index = this.products.findIndex(item => item.id === Number(id));
+        this.products[index] .categoryId = productDTO.categoryId;
+        this.products[index] .productName = productDTO.productName;
+        this.products[index] .price = productDTO.price;
+        return this.products[index];
     }
 
     
-    deleteProduct() : string {
-        return 'DELETE PRODUCT';
+    deleteProduct(id: number) : Boolean {
+        const index = this.products.findIndex(item => item.id === Number(id));
+        if(index != -1) {
+            this.products.splice(index, 1);
+            return true;
+        }
+        return false;
     }
 };
