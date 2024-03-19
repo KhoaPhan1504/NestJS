@@ -1,8 +1,9 @@
-import { Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ResponseData } from "src/global/globalClass";
 import { HttpMessage, HttpStatus } from "src/global/globalEnum";
 import { Product } from "src/models/product.model";
+import { ProductDTO } from "src/dto/product.dto";
 
 @Controller('product')
 export class ProductController {
@@ -23,12 +24,12 @@ export class ProductController {
     }
 
     @Post()
-    createProduct() : ResponseData<string> {
+    createProduct(@Body() productDTO: ProductDTO) : ResponseData<ProductDTO> {
         try {
-            return new ResponseData<string>(this.productService.createProduct(), HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
+            return new ResponseData<ProductDTO>(productDTO, HttpStatus.SUCCESS, HttpMessage.SUCCESS) ;
             
         } catch (error) {
-            return new ResponseData<string>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
+            return new ResponseData<ProductDTO>(null, HttpStatus.ERROR, HttpMessage.ERROR) ;
             
         }
     }
