@@ -12,7 +12,7 @@ import { DataSource } from 'typeorm';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'khoadev#',
+      password: 'KhoaDev123',
       database: 'nestjs_api',
       entities: [],
       synchronize: true,
